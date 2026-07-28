@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Invite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Courgette&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="is-loading">
+  <section id="introLoader" class="intro-loader" aria-live="polite">
+    <div class="intro-card">
+      <p class="intro-kicker">For my favorite person</p>
+      <div class="intro-heart" aria-hidden="true">💖</div>
+      <h2>Something sweet is loading...</h2>
+    </div>
+  </section>
+
+  <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+  <div class="petals" aria-hidden="true"></div>
+  <div class="floating-compliments" aria-hidden="true">
+    <span class="love-word">beautiful</span>
+    <span class="love-word">my favorite</span>
+    <span class="love-word">kind heart</span>
+    <span class="love-word">sunshine</span>
+    <span class="love-word">my peace</span>
+    <span class="love-word">sweet soul</span>
+  </div>
+
+  <main class="app-shell">
+    <section id="askView" class="card ask-view" aria-labelledby="mainTitle">
+      <p class="tag">A tiny surprise for you</p>
+      <h1 id="mainTitle">Will you go on a date with me?</h1>
+      <p class="sub">I promise kisses, laughs and good movies.</p>
+
+      <div class="button-row" id="buttonRow">
+        <button id="yesBtn" class="btn btn-yes" type="button">Yes, absolutely 💖</button>
+        <button id="noBtn" class="btn btn-no" type="button" aria-describedby="noHint">No</button>
+      </div>
+      <p id="noHint" class="hint">Tiny hint: this question only has one correct answer.</p>
+
+      <div id="srStatus" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    </section>
+
+    <section id="plannerView" class="card planner-view hidden" aria-labelledby="plannerTitle">
+      <h2 id="plannerTitle">Yay! Pick our date and time ✨</h2>
+      <p class="sub">Choose when our cute adventure starts.</p>
+
+      <form id="dateForm" novalidate>
+        <label for="dateSelect">Date</label>
+        <div class="select-wrap">
+          <select id="dateSelect" name="date" required>
+            <option value="">Choose a date</option>
+          </select>
+        </div>
+
+        <label for="timeSelect">Time</label>
+        <div class="select-wrap">
+          <select id="timeSelect" name="time" required>
+            <option value="">Choose a time</option>
+          </select>
+        </div>
+
+        <p id="formError" class="error" role="alert" aria-live="polite"></p>
+
+        <div class="planner-actions">
+          <button class="btn btn-yes" type="submit">Start countdown 💞</button>
+          <button id="backBtn" class="btn btn-ghost" type="button">Back</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="countdownView" class="card countdown-view hidden" aria-labelledby="countdownTitle">
+      <h2 id="countdownTitle">Counting down to us 🌸</h2>
+      <p id="countdownDate" class="countdown-date"></p>
+
+      <div class="timer" aria-live="polite" aria-atomic="true">
+        <div class="time-box"><span id="days">00</span><small>Days</small></div>
+        <div class="time-box"><span id="hours">00</span><small>Hours</small></div>
+        <div class="time-box"><span id="minutes">00</span><small>Minutes</small></div>
+        <div class="time-box"><span id="seconds">00</span><small>Seconds</small></div>
+      </div>
+
+      <p id="countdownMessage" class="sub">I cannot wait to see you 💕</p>
+
+      <div class="planner-actions">
+        <button id="changeDateBtn" class="btn btn-ghost" type="button">Change date</button>
+        <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
+      </div>
+    </section>
+
+    <div id="celebrationLayer" class="celebration-layer" aria-hidden="true"></div>
+
+    <section id="finalSurprise" class="final-surprise hidden" role="dialog" aria-modal="true" aria-labelledby="finalTitle">
+      <div class="final-card">
+        <p class="final-kicker">Our moment is here</p>
+        <div class="final-heart" aria-hidden="true">💖</div>
+        <h3 id="finalTitle">It is date time!</h3>
+        <p>Come here, my love. Your date is waiting ✨</p>
+        <button id="finalReplayBtn" class="btn btn-yes" type="button">Play from start</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
