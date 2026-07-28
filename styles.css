@@ -240,7 +240,8 @@ h2 {
 .button-row {
   position: relative;
   min-height: 120px;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn {
@@ -369,6 +370,16 @@ select:focus-visible {
   margin-top: 0;
   color: #8a5267;
   font-weight: 700;
+}
+
+.text-me-prompt {
+  margin: 2px 0 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #fff2f8;
+  border: 1px solid #ffd6e6;
+  color: #9b3f61;
+  font-weight: 800;
 }
 
 .hidden {

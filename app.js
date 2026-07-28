@@ -18,6 +18,7 @@ const formError = document.getElementById("formError");
 const backBtn = document.getElementById("backBtn");
 
 const countdownDate = document.getElementById("countdownDate");
+const textMePrompt = document.getElementById("textMePrompt");
 const countdownMessage = document.getElementById("countdownMessage");
 const changeDateBtn = document.getElementById("changeDateBtn");
 const resetBtn = document.getElementById("resetBtn");
@@ -154,8 +155,34 @@ function moveNoButton() {
   const btnHeight = noBtn.offsetHeight;
   const maxX = Math.max(0, buttonRowRect.width - btnWidth - 6);
   const maxY = Math.max(0, buttonRowRect.height - btnHeight - 6);
-  const nextX = randomInRange(0, maxX);
-  const nextY = randomInRange(0, maxY);
+
+  const currentX = Number.parseFloat(noBtn.style.left || `${maxX / 2}`);
+  const currentY = Number.parseFloat(noBtn.style.top || `${maxY / 2}`);
+  const stepX = randomInRange(-70, 70);
+  const stepY = randomInRange(-55, 55);
+
+  const yesRect = yesBtn.getBoundingClientRect();
+  const yesCenterX = yesRect.left + yesRect.width / 2;
+  const yesCenterY = yesRect.top + yesRect.height / 2;
+  const minDistanceFromYes = Math.min(180, buttonRowRect.width * 0.38);
+
+  let nextX = Math.min(Math.max(0, currentX + stepX), maxX);
+  let nextY = Math.min(Math.max(0, currentY + stepY), maxY);
+
+  // Keep the no button playful but avoid landing too close to the yes button.
+  for (let attempts = 0; attempts < 10; attempts += 1) {
+    const candidateX = Math.min(Math.max(0, randomInRange(0, maxX)), maxX);
+    const candidateY = Math.min(Math.max(0, randomInRange(0, maxY)), maxY);
+    const noCenterX = buttonRowRect.left + candidateX + btnWidth / 2;
+    const noCenterY = buttonRowRect.top + candidateY + btnHeight / 2;
+    const distanceFromYes = Math.hypot(noCenterX - yesCenterX, noCenterY - yesCenterY);
+
+    if (distanceFromYes >= minDistanceFromYes) {
+      nextX = candidateX;
+      nextY = candidateY;
+      break;
+    }
+  }
 
   noBtn.classList.add("no-run");
   noBtn.style.left = `${nextX}px`;
@@ -187,7 +214,7 @@ function maybeEvadeFromPointer(event) {
   const centerY = rect.top + rect.height / 2;
   const distance = Math.hypot(event.clientX - centerX, event.clientY - centerY);
 
-  if (distance < 90) {
+  if (distance < 65 && Math.random() < 0.75) {
     moveNoButton();
   }
 }
@@ -400,6 +427,7 @@ function startCountdown() {
   }
 
   countdownDate.textContent = formatTargetDate(countdownTarget);
+  textMePrompt.textContent = `Text me this date so we can lock it in: ${formatTargetDate(countdownTarget)} 💌`;
   renderCountdown();
   countdownTimer = window.setInterval(renderCountdown, 1000);
 }
@@ -487,6 +515,7 @@ function wireEvents() {
     noBtn.style.top = "";
     noHint.textContent = "Tiny hint: this question only has one correct answer.";
     countdownView.classList.remove("urgent", "finished");
+    textMePrompt.textContent = "";
     hideFinalSurprise();
     formError.textContent = "";
     clearState();
@@ -521,6 +550,8 @@ function init() {
   setDateTimeDropdownDefaults();
   wireEvents();
   loadState();
+
+  noMoveCooldownUntil = Date.now() + 380;
 
   const introDuration = prefersReducedMotion ? 500 : 1900;
   window.setTimeout(() => {
